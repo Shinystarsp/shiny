@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shiny — Portfólio</title>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+      --accent:#38bdf8;
+      --cardTop:rgba(17,24,39,.92);
+      --cardBottom:rgba(17,24,39,.75);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 0%, #0f1b3a 0%, var(--bg) 55%);
+      opacity:0;
+      animation: fadeInBody 900ms ease forwards;
+    }
+
+    @keyframes fadeInBody{
+      to{ opacity:1; }
+    }
+
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:48px 20px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--cardTop), var(--cardBottom));
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+
+      transform: translateY(16px);
+      opacity:0;
+      animation: fadeUp 900ms ease 180ms forwards;
+    }
+
+    @keyframes fadeUp{
+      to{
+        transform: translateY(0);
+        opacity:1;
+      }
+    }
+
+    .top{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .avatar{
+      width:84px;
+      height:84px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: linear-gradient(135deg, #111827, #0b0f17);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:28px;
+      color:var(--accent);
+      transition: transform 240ms ease;
+      user-select:none;
+    }
+
+    .avatar:hover{
+      transform: rotate(4deg) scale(1.04);
+    }
+
+    h1{
+      margin:0;
+      font-size:32px;
+      letter-spacing:0.2px;
+
+      /* brilho suave com compatibilidade */
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #38bdf8);
+      background-size:200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+
+      animation: shine 4s linear infinite;
+    }
+
+    @keyframes shine{
+      0%{ background-position:0%; }
+      100%{ background-position:200%; }
+    }
+
+    .tag{
+      color:var(--muted);
+      margin-top:6px;
+    }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    a.btn{
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid var(--line);
+      padding:10px 14px;
+      border-radius:12px;
+      background: rgba(255,255,255,.03);
+      transition: transform 180ms ease, border-color 180ms ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    a.btn:hover{
+      transform: translateY(-2px);
+      border-color:#334155;
+    }
+
+    a.btn.primary{
+      border-color: rgba(56,189,248,.55);
+      box-shadow: 0 0 0 4px rgba(56,189,248,.08) inset;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      margin-top:18px;
+    }
+
+    @media (max-width: 840px){
+      .grid{ grid-template-columns:1fr; }
+    }
+
+    .box{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background: rgba(255,255,255,.02);
+      transition: transform 220ms ease, border-color 220ms ease;
+    }
+
+    .box:hover{
+      transform: translateY(-4px);
+      border-color:#334155;
+    }
+
+    .box h2{
+      margin:0 0 10px;
+      font-size:16px;
+      color:#cbd5e1;
+      letter-spacing:0.2px;
+    }
+
+    .p{
+      color:var(--muted);
+      line-height:1.55;
+      margin:0;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color:#cbd5e1;
+      font-size:13px;
+    }
+
+    .proj{
+      display:grid;
+      gap:10px;
+    }
+
+    .proj a{
+      display:block;
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,.02);
+      transition: transform 200ms ease, border-color 200ms ease;
+    }
+
+    .proj a:hover{
+      transform: translateY(-3px);
+      border-color:#334155;
+    }
+
+    .proj .t{ font-weight:700; }
+
+    .proj .d{
+      color:var(--muted);
+      margin-top:4px;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+
+    /* acessibilidade: reduz animação se o usuário preferir */
+    @media (prefers-reduced-motion: reduce){
+      *{
+        animation: none !important;
+        transition: none !important;
+      }
+      body{ opacity:1; }
+      .card{ opacity:1; transform:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div class="avatar">SH</div>
+        <div>
+          <h1>Shiny</h1>
+          <div class="tag">Desenvolvedor em formação • ADS • Brasil</div>
+          <div class="btns">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn" href="mailto:seuemail@exemplo.com">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="box">
+          <h2>Sobre</h2>
+          <p class="p">
+            Construo projetos com foco em organização, performance e evolução constante.
+            Gosto de interfaces limpas e código direto ao ponto.
+          </p>
+        </div>
+
+        <div class="box">
+          <h2>Stack</h2>
+          <div class="chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip">Git</span>
+            <span class="chip">Node (aprendendo)</span>
+            <span class="chip">SQL (aprendendo)</span>
+          </div>
+        </div>
+
+        <div class="box" style="grid-column: 1 / -1;">
+          <h2>Projetos</h2>
+          <div class="proj">
+            <a href="#" target="_blank" rel="noopener">
+              <div class="t">Landing Page Moderna</div>
+              <div class="d">Página responsiva com layout elegante e animações suaves.</div>
+            </a>
+            <a href="#" target="_blank" rel="noopener">
+              <div class="t">Mini App JavaScript</div>
+              <div class="d">Interatividade simples focada em lógica e usabilidade.</div>
+            </a>
+            <a href="#" target="_blank" rel="noopener">
+              <div class="t">Automação</div>
+              <div class="d">Script para otimizar tarefas repetitivas e economizar tempo.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <footer>© <span id="y"></span> • Feito por Shiny</footer>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
